@@ -1,0 +1,4 @@
+apiVersion: v1
+description: A Helm chart to create a full Laravel application
+name: laravelday
+version: 0.0.1

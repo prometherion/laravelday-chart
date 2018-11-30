@@ -1,0 +1,17 @@
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata:
+  name: "{{ .Release.Name }}"
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  rules:
+  - host: "api.{{ .Release.Namespace }}.wtf"
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: {{ .Chart.Name }}
+          servicePort: 80

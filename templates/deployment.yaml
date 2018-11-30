@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      laravelday: "2018"
+  template:
+    metadata:
+      labels:
+        laravelday: "2018"
+    spec:
+      containers:
+      - name: webserver
+        image: nginx:1.15-alpine
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - mountPath: /etc/nginx/conf.d/default.conf
+          name: conf
+          subPath: default.conf
+      - name: cgi
+        image: prometherion/laravelday-2018:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 9000
+        env:
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: cache-redis
+              key: redis-password
+        volumeMounts:
+        - mountPath: /var/www/.env
+          name: conf
+          subPath: .env
+      volumes:
+      - name: conf
+        configMap:
+          name: {{ .Release.Name }}
