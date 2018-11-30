@@ -35,7 +35,7 @@ spec:
         - name: REDIS_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: cache-redis
+              name: cache-{{ .Release.Namespace }}-redis
               key: redis-password
         volumeMounts:
         - mountPath: /var/www/.env
