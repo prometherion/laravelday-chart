@@ -27,7 +27,7 @@ spec:
           name: conf
           subPath: default.conf
       - name: cgi
-        image: {{ .Values.Image | quote }}
+        image: {{ .Values.image | quote }}
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 9000
