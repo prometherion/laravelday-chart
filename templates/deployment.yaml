@@ -27,7 +27,7 @@ spec:
           name: conf
           subPath: default.conf
       - name: cgi
-        image: prometherion/laravelday-2018:latest
+        image: {{ .Values.Image | quote }}
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 9000
